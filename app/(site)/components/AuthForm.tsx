@@ -2,18 +2,25 @@
 import axios from "axios";
 import Button from "@/app/components/Button";
 import Input from "@/app/components/Input";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useForm, FieldValues, SubmitHandler } from "react-hook-form";
-import { FaFacebook, FaTwitter, FaGoogle } from "react-icons/fa";
+import { FaGoogle, FaGithub } from "react-icons/fa";
 import toast from "react-hot-toast";
-import { signIn } from "next-auth/react";
-import { redirect } from "next/dist/server/api-utils";
-
+import { signIn, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 type Variant = "LOGIN" | "REGISTER";
 
 const AuthForm = () => {
+  const router = useRouter();
+  const session = useSession();
   const [variant, setVariant] = useState<Variant>("LOGIN");
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (session?.status === "authenticated") {
+      router.push("/users");
+    }
+  }, [session?.status, router]);
 
   const toggleVariant = useCallback(() => {
     if (variant === "LOGIN") {
@@ -41,6 +48,7 @@ const AuthForm = () => {
     if (variant === "REGISTER") {
       axios
         .post("/api/register", data)
+        .then((res) => res.status === 200 && toast.success("Success"))
         .catch(() => toast.error("Something went wrong!"))
         .finally(() => setIsLoading(false));
     }
@@ -50,10 +58,13 @@ const AuthForm = () => {
         redirect: false,
       })
         .then((callback) => {
-          if (callback?.error) toast.error("Invalid credentials");
           console.log(callback);
+          if (callback?.error) toast.error("Invalid credentials");
 
-          if (callback?.ok && !callback?.error) toast.success("Success");
+          if (callback?.ok && !callback?.error) {
+            toast.success("Success");
+            router.push("/users");
+          }
         })
         .finally(() => setIsLoading(false));
     }
@@ -65,6 +76,7 @@ const AuthForm = () => {
       .then((callback) => {
         if (callback?.error) {
           console.log(callback);
+          toast.success("Something wet wrong!");
         }
         if (callback?.ok && !callback?.error)
           toast.success("Success, Loged in");
@@ -118,9 +130,9 @@ const AuthForm = () => {
         <button
           type="button"
           className="bg-gray-200 p-3 rounded w-full flex justify-center text-gray-500"
-          onClick={() => socialAction("google")}
+          onClick={() => socialAction("github")}
         >
-          <FaFacebook />
+          <FaGithub />
         </button>
       </div>
       <hr />
