@@ -5,10 +5,18 @@ import React from "react";
 import DesktopItem from "./DesktopItem";
 import MobileItem from "./MobileItem";
 
-const MobileFooter = () => {
+import { User } from "@prisma/client";
+
+interface IParams {
+  currentUser: User;
+}
+
+const MobileFooter: React.FC<IParams> = ({ currentUser }) => {
   const routes = useRoutes();
   const { isOpen } = useConversation();
   if (isOpen) return null;
+
+  console.log(currentUser);
   return (
     <nav className="fixed bottom-0 left-0 w-full bg-white lg:hidden z-40 border-t-[1px] border-t-gray-200">
       <ul className="grid grid-cols-3">
