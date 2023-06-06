@@ -13,7 +13,7 @@ const useRoutes = () => {
       {
         label: "Chat",
         href: "/conversation",
-        active: pathname === "/conversations" || !!conversationId,
+        active: pathname === "/conversation" || !!conversationId,
         icon: IoChatbubble,
       },
       {

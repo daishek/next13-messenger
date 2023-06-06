@@ -4,7 +4,7 @@ import getSession from "./getSession";
 
 const getUsers = async () => {
   const session = await getSession();
-  !session?.user?.email && null;
+  if (!session?.user?.email) return null;
 
   try {
     const users = await prisma.user.findMany({
