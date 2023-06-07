@@ -17,6 +17,7 @@ const ConversationsList: React.FC<ConversationsParams> = ({
       className={clsx(
         `
         fixed
+        lg:block
         inset-y-0
         lg:left-20
         overflow-y-auto
@@ -42,7 +43,7 @@ const ConversationsList: React.FC<ConversationsParams> = ({
           </div>
         ) : (
           <div className="grid">
-            {conversations?.map((conversation) => (
+            {conversations.map((conversation) => (
               <ConversationBox
                 key={conversation.id}
                 conversation={conversation}
