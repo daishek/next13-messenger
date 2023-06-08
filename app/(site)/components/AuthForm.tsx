@@ -43,7 +43,6 @@ const AuthForm = () => {
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setIsLoading(true);
-    console.log(data);
 
     if (variant === "REGISTER") {
       axios

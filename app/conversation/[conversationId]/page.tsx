@@ -15,7 +15,7 @@ interface IChat {
 
 const Chat = async ({ params }: IChat) => {
   const conversation = await getConversationById(params.conversationId);
-  const mesages = await getMessages(params.conversationId);
+  const messages = await getMessages(params.conversationId);
   if (!conversation) {
     return (
       <div className="lg:pl-80 h-full">
@@ -26,7 +26,7 @@ const Chat = async ({ params }: IChat) => {
   return (
     <div className="lg:pl-80 h-full flex flex-col">
       <Header conversation={conversation} />
-      <Body />
+      <Body messages={messages} />
       <Footer />
     </div>
   );

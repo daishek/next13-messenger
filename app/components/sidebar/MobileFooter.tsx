@@ -16,7 +16,6 @@ const MobileFooter: React.FC<IParams> = ({ currentUser }) => {
   const { isOpen } = useConversation();
   if (isOpen) return null;
 
-  console.log(currentUser);
   return (
     <nav className="fixed bottom-0 left-0 w-full bg-white lg:hidden z-40 border-t-[1px] border-t-gray-200">
       <ul className="grid grid-cols-3">
